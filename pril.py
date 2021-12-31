@@ -12,7 +12,7 @@ import time
 import os
 
 bot = commands.Bot(command_prefix='!')
-client = discord.Client
+client = discord.Client()
 
 user = []           # 유저가 입력한 노래 제목
 musictitle = []     # 갈무리한 노래 제목
