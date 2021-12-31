@@ -9,6 +9,7 @@ from discord.utils import get
 from discord import FFmpegPCMAudio
 import asyncio
 import time
+import os
 
 bot = commands.Bot(command_prefix='!')
 client = discord.Client
@@ -84,12 +85,26 @@ def play_next(ctx):
             client.loop.creat_task(vc.disconnect())
 
 
+def load_chrome_driver():
+    options = webdriver.ChromeOptions()
+
+    options.binary_location = os.getenv('GOOGLE_CHROME_BIN')
+
+    options.add_argument('--headless')
+    # options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+
+    return webdriver.Chrome(executable_path=str(os.environ.get('CHROME_EXECUTABLE_PATH')), chrome_options=options)
+
 @bot.event
 async def on_ready():
     print('다음으로 로그인합니다.: ')
     print(bot.user.name)
     print('connection was successful')
     await bot.change_presence(status=discord.Status.online, activity=discord.Game("대기"))
+
+    if not discord.opus.is_loaded():
+        discord.opus.load_opus('opus')
 
 
 @bot.command()
@@ -154,8 +169,8 @@ async def 재생(ctx, *, msg):
         YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist': 'True'}
         FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
 
-        chromedriver_dir = "D:\chromedriver.exe"
-        driver = webdriver.Chrome(chromedriver_dir, options=options)
+        #chromedriver_dir = "D:\chromedriver.exe"
+        driver = load_chrome_driver()
         driver.get("https://www.youtube.com/results?search_query="+msg+"+lyrics")
         source = driver.page_source
         bs = bs4.BeautifulSoup(source, 'lxml')
@@ -240,8 +255,8 @@ async def 멜론(ctx):
         YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist': 'True'}
         FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
 
-        chromedriver_dir = "D:\chromedriver.exe"
-        driver = webdriver.Chrome(chromedriver_dir, options=options)
+        #chromedriver_dir = "D:\chromedriver.exe"
+        driver = load_chrome_driver()
         driver.get("https://www.youtube.com/results?search_query=멜론차트")
         source = driver.page_source
         bs = bs4.BeautifulSoup(source, 'lxml')
