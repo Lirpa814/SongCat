@@ -54,6 +54,7 @@ def title(msg):
 def play(ctx):
     global vc
 
+    YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist': 'True'}
     FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
 
     URL = song_queue[0]
@@ -69,8 +70,10 @@ def play_next(ctx):
     if len(musicnow) - len(user) >= 2:
         for i in range(len(musicnow) - len(user) - 1):
             del musicnow[0]
+
     YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist':'True'}
     FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+
     if len(user) >= 1:
         if not vc.is_playing():
             del musicnow[0]
@@ -278,7 +281,7 @@ async def 멜론(ctx):
 
 
 @bot.command()
-async def 대기열추가(ctx, *, msg):
+async def 추가(ctx, *, msg):
     user.append(msg)
     result, URLTEST = title(msg)
     song_queue.append(URLTEST)
