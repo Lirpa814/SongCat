@@ -430,4 +430,4 @@ async def 도움말(ctx):
         !삭제 or !제거 숫자 -> 대기열에서 입력한 숫자에 해당하는 노래를 지웁니다.""", color=0x8b00ff))
 
 
-bot.run('OTI2NTI0NTU3NjcyNzE0MzAw.Yc87PA.CDJcmrYuonU6cqOo3RbH4Qp3vo8')
+bot.run('OTI2Mzg4MTA5MjgzODUyMzE4.Yc68KA.K-vmxdlJUpNjKRO9gu4yELxCR3o')
