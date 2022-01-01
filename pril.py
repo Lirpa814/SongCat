@@ -123,7 +123,7 @@ async def 들(ctx):
             await ctx.send(embed=discord.Embed(title='Hello', description="만나서 반가워요.", color=0x00ff00))
         except:
             await ctx.send(embed=discord.Embed(title='Notice', description="Nobody in any channel", color=0x00ff00))
-
+    await ctx.message.delete()
 
 @bot.command()
 async def 나(ctx):
@@ -132,7 +132,7 @@ async def 나(ctx):
         await vc.disconnect()
     except:
         await ctx.send(embed=discord.Embed(title='Notice', description="Already disconnected", color=0x00ff00))
-
+    await ctx.message.delete()
 
 @bot.command()
 async def 재생_URL(ctx, *, url):
@@ -147,7 +147,7 @@ async def 재생_URL(ctx, *, url):
         await ctx.send(embed=discord.Embed(title="노래 재생", description="Now Playing " + url, color=0x00ff00))
     else:
         await ctx.send("노래가 이미 재생되고 있습니다!")
-
+    await ctx.message.delete()
 
 @bot.command()
 async def 재생(ctx, *, msg):
@@ -196,6 +196,8 @@ async def 재생(ctx, *, msg):
         song_queue.append(URLTEST)
         await ctx.send(embed=discord.Embed(title='Add list', description=result + "\n재생목록에 추가 완료", color=0x00ff00))
 
+    await ctx.message.delete()
+
 
 @bot.command()
 async def 일시정지(ctx):
@@ -204,7 +206,7 @@ async def 일시정지(ctx):
         await ctx.send(embed=discord.Embed(title="Pause", description=musicnow[0] + "\n일시정지 했습니다.", color=0x00ff00))
     else:
         await ctx.send("지금 노래가 재생되지 않네요.")
-
+    await ctx.message.delete()
 
 @bot.command()
 async def 다시재생(ctx):
@@ -213,7 +215,7 @@ async def 다시재생(ctx):
         await ctx.send(embed=discord.Embed(title="Resume", description=musicnow[0] + "\n다시 재생할게요.", color=0x00ff00))
     except:
         await ctx.send("지금 노래가 재생되지 않네요.")
-
+    await ctx.message.delete()
 
 @bot.command()
 async def 정지(ctx):
@@ -222,7 +224,7 @@ async def 정지(ctx):
         await ctx.send(embed=discord.Embed(title="Stop", description=musicnow[0] + "\n정지했습니다.", color=0x00ff00))
     else:
         await ctx.send("지금 노래가 재생되지 않네요.")
-
+    await ctx.message.delete()
 
 @bot.command()
 async def 재생중(ctx):
@@ -232,7 +234,7 @@ async def 재생중(ctx):
         await ctx.send(
             embed=discord.Embed(title="Now playing", description="현재 재생 중인 곡은\n" + musicnow[0] + "\n입니다.",
                                 color=0x00ff00))
-
+    await ctx.message.delete()
 
 @bot.command()
 async def 멜론(ctx):
@@ -279,7 +281,7 @@ async def 멜론(ctx):
         result, URLTEST = title("멜론")
         song_queue.append(URLTEST)
         await ctx.send(embed=discord.Embed(title='Add list', description=result + "\n재생목록에 추가 완료", color=0x00ff00))
-
+    await ctx.message.delete()
 
 @bot.command()
 async def 추가(ctx, *, msg):
@@ -287,7 +289,7 @@ async def 추가(ctx, *, msg):
     result, URLTEST = title(msg)
     song_queue.append(URLTEST)
     await ctx.send(embed=discord.Embed(title='Add list', description=result + "\n재생목록에 추가 완료", color=0x00ff00))
-
+    await ctx.message.delete()
 
 @bot.command()
 async def 삭제(ctx, *, number):
@@ -309,7 +311,7 @@ async def 삭제(ctx, *, number):
                 await ctx.send("숫자가 리스트의 범위를 벗어났습니다.")
             else:
                 await ctx.send("숫자를 입력해주세요.")
-
+    await ctx.message.delete()
 
 @bot.command()
 async def 제거(ctx, *, number):
@@ -331,7 +333,7 @@ async def 제거(ctx, *, number):
                 await ctx.send("숫자가 리스트의 범위를 벗어났습니다.")
             else:
                 await ctx.send("숫자를 입력해주세요.")
-
+    await ctx.message.delete()
 
 @bot.command()
 async def 목록(ctx):
@@ -344,7 +346,7 @@ async def 목록(ctx):
             Text = Text + "\n" + str(i + 1) + ". " + str(musictitle[i])
 
         await ctx.send(embed=discord.Embed(title="List", description=Text.strip(), color=0x00ff00))
-
+    await ctx.message.delete()
 
 @bot.command()
 async def 리스트(ctx):
@@ -357,7 +359,7 @@ async def 리스트(ctx):
             Text = Text + "\n" + str(i + 1) + ". " + str(musictitle[i])
 
         await ctx.send(embed=discord.Embed(title="List", description=Text.strip(), color=0x00ff00))
-
+    await ctx.message.delete()
 
 @bot.command()
 async def 초기화(ctx):
@@ -375,7 +377,7 @@ async def 초기화(ctx):
             embed=discord.Embed(title="Reset list", description="""리스트가 정상적으로 초기화되었습니다.""", color=0x00ff00))
     except:
         await ctx.send("리스트에 등록된 노래가 없습니다.")
-
+    await ctx.message.delete()
 
 @bot.command()
 async def 번호재생(ctx):
@@ -392,7 +394,7 @@ async def 번호재생(ctx):
             play(ctx)
         else:
             await ctx.send("노래가 이미 재생 중 입니다.")
-
+    await ctx.message.delete()
 
 @bot.command()
 async def 스킵(ctx):
@@ -406,7 +408,7 @@ async def 스킵(ctx):
             await ctx.send("노래가 이미 재생되고 있어요!")
     else:
         await ctx.send("다음 곡이 없습니다.")
-
+    await ctx.message.delete()
 
 @bot.command()
 async def 도움말(ctx):
@@ -428,6 +430,6 @@ async def 도움말(ctx):
         !스킵 -> 현재 노래를 종료하고 다음 노래를 재생합니다.
         \n!추가 노래제목 -> 노래를 대기열에 추가합니다.
         !삭제 or !제거 숫자 -> 대기열에서 입력한 숫자에 해당하는 노래를 지웁니다.""", color=0x8b00ff))
-
+    await ctx.message.delete()
 
 bot.run('OTI2Mzg4MTA5MjgzODUyMzE4.Yc68KA.xvmEbOFnpqgyBUZiiUNgN_2-xGc')
