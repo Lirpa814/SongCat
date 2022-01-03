@@ -487,5 +487,5 @@ async def 도움말(ctx):
         !삭제 or !제거 숫자 -> 대기열에서 입력한 숫자에 해당하는 노래를 지웁니다.""", color=0x8b00ff))
     await ctx.message.delete()
 
-
-bot.run('OTI2Mzg4MTA5MjgzODUyMzE4.Yc68KA.xvmEbOFnpqgyBUZiiUNgN_2-xGc')
+token = open("Token", "r").readline()
+bot.run(token)
