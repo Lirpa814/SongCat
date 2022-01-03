@@ -10,7 +10,7 @@ import asyncio
 import time
 import os
 
-# MODE: local
+# MODE : local
 # bot = commands.Bot(command_prefix='#')
 #
 
