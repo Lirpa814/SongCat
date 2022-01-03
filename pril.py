@@ -9,6 +9,7 @@ from discord import FFmpegPCMAudio
 import asyncio
 import time
 import os
+from dotenv import load_dotenv
 
 # MODE: local
 # bot = commands.Bot(command_prefix='#')
@@ -487,5 +488,6 @@ async def 도움말(ctx):
         !삭제 or !제거 숫자 -> 대기열에서 입력한 숫자에 해당하는 노래를 지웁니다.""", color=0x8b00ff))
     await ctx.message.delete()
 
-token = open("Token.txt", "r").readline()
+load_dotenv()
+token = os.environ.get('Token')
 bot.run(token)
