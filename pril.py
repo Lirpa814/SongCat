@@ -10,7 +10,7 @@ import asyncio
 import time
 import os
 
-state = 'local'  # local or server
+state = 'server' # local or server
 
 if state == 'local':
     # MODE: local
