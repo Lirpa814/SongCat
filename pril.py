@@ -3,6 +3,7 @@ from discord.ext import commands
 from youtube_dl import YoutubeDL
 import bs4
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from discord.utils import get
 from discord import FFmpegPCMAudio
@@ -10,7 +11,8 @@ import asyncio
 import time
 import os
 
-state = 'server' # local or server
+state = 'server'  # local or server
+
 
 if state == 'local':
     # MODE: local
@@ -124,8 +126,8 @@ def load_chrome_driver():
     # options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
 
-    return webdriver.Chrome(executable_path=str(os.environ.get('CHROME_EXECUTABLE_PATH')), chrome_options=options)
-
+    # return webdriver.Chrome(executable_path=str(os.environ.get('CHROME_EXECUTABLE_PATH')), chrome_options=options)
+    return webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
 
 @bot.command()
 async def 따라해(ctx, *, text):
@@ -503,6 +505,7 @@ async def 도움말(ctx):
         \n!추가 노래제목 -> 노래를 대기열에 추가합니다.
         !삭제 or !제거 숫자 -> 대기열에서 입력한 숫자에 해당하는 노래를 지웁니다.""", color=0x8b00ff))
     await ctx.message.delete()
+
 
 f = open("token.txt", "r")
 token = f.readline()
