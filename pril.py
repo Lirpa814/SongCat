@@ -10,13 +10,16 @@ import asyncio
 import time
 import os
 
-# MODE : local
-# bot = commands.Bot(command_prefix='#')
-#
+state = 'local'  # local or server
 
-# MODE : server
-bot = commands.Bot(command_prefix='!')
-#
+if state == 'local':
+    # MODE: local
+    bot = commands.Bot(command_prefix='#')
+    #
+else:
+    # MODE : server
+    bot = commands.Bot(command_prefix='!')
+    #
 client = discord.Client()
 
 user = []
@@ -36,14 +39,15 @@ def title(msg):
     options = webdriver.ChromeOptions()
     options.add_argument("headless")
 
-    # MODE : local
-    # chromedriver_dir = r"D:\chromedriver.exe"
-    # driver = webdriver.Chrome(chromedriver_dir, options=options)
-    #
-
-    # MODE : server
-    driver = load_chrome_driver()
-    #
+    if state == 'local':
+        # MODE : local
+        chromedriver_dir = r"D:\chromedriver.exe"
+        driver = webdriver.Chrome(chromedriver_dir, options=options)
+        #
+    else:
+        # MODE : server
+        driver = load_chrome_driver()
+        #
     driver.get("https://www.youtube.com/results?search_query=" + msg + "+lyrics")
     source = driver.page_source
     bs = bs4.BeautifulSoup(source, 'lxml')
@@ -102,22 +106,15 @@ def play_next(ctx):
 
 @bot.event
 async def on_ready():
-    print(bot.user.name + ' 로그인 성공')
+    if state == 'local':
+        print(bot.user.name + ' local 로그인 성공')
+    else:
+        print(bot.user.name + ' server 로그인 성공')
+        if not discord.opus.is_loaded():
+            discord.opus.load_opus('opus')
     await bot.change_presence(status=discord.Status.online, activity=discord.Game("열심히 작곡"))
 
-    # MODE : local
-    #
 
-    # MODE : server
-    if not discord.opus.is_loaded():
-        discord.opus.load_opus('opus')
-    #
-
-
-# MODE : local
-#
-
-# MODE : server
 def load_chrome_driver():
     options = webdriver.ChromeOptions()
 
@@ -129,8 +126,6 @@ def load_chrome_driver():
 
     return webdriver.Chrome(executable_path=str(os.environ.get('CHROME_EXECUTABLE_PATH')), chrome_options=options)
 
-
-#
 
 @bot.command()
 async def 따라해(ctx, *, text):
@@ -204,14 +199,15 @@ async def 재생(ctx, *, msg):
         FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
                           'options': '-vn'}
 
-        # MODE : local
-        # chromedriver_dir = r"D:\chromedriver.exe"
-        # driver = webdriver.Chrome(chromedriver_dir, options=options)
-        #
-
-        # MODE : server
-        driver = load_chrome_driver()
-        #
+        if state == 'local':
+            # MODE : local
+            chromedriver_dir = r"D:\chromedriver.exe"
+            driver = webdriver.Chrome(chromedriver_dir, options=options)
+            #
+        else:
+            # MODE : server
+            driver = load_chrome_driver()
+            #
 
         if "라이브" in msg:
             driver.get("https://www.youtube.com/results?search_query=" + msg)
@@ -248,7 +244,7 @@ async def 일시정지(ctx):
         vc.pause()
         await ch.send(embed=discord.Embed(title="Pause", description=musicnow[0] + "\n일시정지 했습니다.", color=0x00ff00))
     else:
-        await ch.send("지금 노래가 재생되지 않네요.")
+        await ch.send("재생 중인 노래가 없습니다.")
     await ctx.message.delete()
 
 
@@ -259,7 +255,7 @@ async def 다시재생(ctx):
         vc.resume()
         await ch.send(embed=discord.Embed(title="Resume", description=musicnow[0] + "\n다시 재생할게요.", color=0x00ff00))
     except:
-        await ch.send("지금 노래가 재생되지 않네요.")
+        await ch.send("일시정지 중인 노래가 없습니다.")
     await ctx.message.delete()
 
 
@@ -270,7 +266,7 @@ async def 정지(ctx):
         vc.stop()
         await ch.send(embed=discord.Embed(title="Stop", description=musicnow[0] + "\n정지했습니다.", color=0x00ff00))
     else:
-        await ch.send("지금 노래가 재생되지 않네요.")
+        await ch.send("재생 중인 노래가 없습니다.")
     await ctx.message.delete()
 
 
@@ -308,14 +304,15 @@ async def 멜론(ctx):
         FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
                           'options': '-vn'}
 
-        # MODE : local
-        # chromedriver_dir = r"D:\chromedriver.exe"
-        # driver = webdriver.Chrome(chromedriver_dir, options=options)
-        #
-
-        # MODE : server
-        driver = load_chrome_driver()
-        #
+        if state == 'local':
+            # MODE : local
+            chromedriver_dir = r"D:\chromedriver.exe"
+            driver = webdriver.Chrome(chromedriver_dir, options=options)
+            #
+        else:
+            # MODE : server
+            driver = load_chrome_driver()
+            #
 
         driver.get("https://www.youtube.com/results?search_query=멜론차트")
         source = driver.page_source
@@ -355,6 +352,7 @@ async def 추가(ctx, *, msg):
 
 @bot.command()
 async def 삭제(ctx, *, number):
+    ch = bot.get_channel(send_channel_id)
     try:
         ex = len(musicnow) - len(user)
         tmpTitle = musictitle[int(number) - 1]
@@ -506,5 +504,6 @@ async def 도움말(ctx):
         !삭제 or !제거 숫자 -> 대기열에서 입력한 숫자에 해당하는 노래를 지웁니다.""", color=0x8b00ff))
     await ctx.message.delete()
 
-
-bot.run('OTI2Mzg4MTA5MjgzODUyMzE4.Yc68KA.qA3qoRViD234lyEWDSOwJhhxMq4')
+f = open("token.txt", "r")
+token = f.readline()
+bot.run(token)
