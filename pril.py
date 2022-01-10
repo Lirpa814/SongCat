@@ -507,6 +507,10 @@ async def 도움말(ctx):
     await ctx.message.delete()
 
 
-f = open("token.txt", "r")
-token = f.readline()
+if state == 'local':
+    f = open("token.txt", "r")
+    token = f.readline()
+else
+    token = os.environ.get('token')
+    
 bot.run(token)
