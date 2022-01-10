@@ -126,8 +126,8 @@ def load_chrome_driver():
     # options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
 
-    return webdriver.Chrome(executable_path=str(os.environ.get('CHROME_EXECUTABLE_PATH')), chrome_options=options)
-    # return webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
+    # return webdriver.Chrome(executable_path=str(os.environ.get('CHROME_EXECUTABLE_PATH')), chrome_options=options)
+    return webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
  
 @bot.command()
 async def 따라해(ctx, *, text):
