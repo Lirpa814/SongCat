@@ -112,8 +112,8 @@ async def on_ready():
         print(bot.user.name + ' local 로그인 성공')
     else:
         print(bot.user.name + ' server 로그인 성공')
-        if not discord.opus.is_loaded():
-            discord.opus.load_opus('opus')
+        # if not discord.opus.is_loaded():
+        #     discord.opus.load_opus('opus')
     await bot.change_presence(status=discord.Status.online, activity=discord.Game("열심히 작곡"))
 
 
