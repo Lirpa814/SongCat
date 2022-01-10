@@ -510,7 +510,7 @@ async def 도움말(ctx):
 if state == 'local':
     f = open("token.txt", "r")
     token = f.readline()
-else
+else:
     token = os.environ.get('token')
     
 bot.run(token)
