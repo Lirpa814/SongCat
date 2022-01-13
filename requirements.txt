@@ -3,7 +3,7 @@ selenium
 discord.py[voice]
 pip
 beautifulsoup4
-youtube-dl
+youtube-dl==2021.12.17
 ffmpeg-python
 requests
 lxml
